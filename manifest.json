@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "OTP Autofill",
+    "version": "1.0.0",
+    "description": "Auto-fills OTP by reading Gmail",
+    "permissions": [
+        "identity",
+        "storage",
+        "activeTab",
+        "scripting"
+    ],
+    "oauth2": {
+        "client_id": "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+        ]
+    },
+    "background": {
+        "service_worker": "src/background/index.ts",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "index.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/content/index.ts"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "host_permissions": [
+        "https://gmail.googleapis.com/*"
+    ]
+}
