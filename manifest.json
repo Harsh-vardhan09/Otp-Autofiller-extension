@@ -10,9 +10,12 @@
         "scripting"
     ],
     "oauth2": {
-        "client_id": "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+        "client_id": "504121017236-6sso1ioes6mfubc1jgn5jril3ria2de5.apps.googleusercontent.com",
+        "key_type": "chrome_extension",
         "scopes": [
-            "https://www.googleapis.com/auth/gmail.readonly"
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile"
         ]
     },
     "background": {
@@ -34,6 +37,7 @@
         }
     ],
     "host_permissions": [
-        "https://gmail.googleapis.com/*"
+        "https://gmail.googleapis.com/*",
+        "https://www.googleapis.com/auth/*"
     ]
 }
