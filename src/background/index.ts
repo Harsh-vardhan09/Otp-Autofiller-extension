@@ -22,11 +22,11 @@ interface GmailMessageListResponse {
 }
 
 const OTP_PATTERNS: RegExp[] = [
-  /(?:otp|code|pin)\s*(?:is|:)?\s*([\d\s\-]{4,}?)(?:\s|$|\.)/i,
-  /([\d\s\-]{4,}?)\s+is your (?:verification|otp|one-time)/i,
-  /^\s*([\d\s\-]{4,}?)\s*$/m,
-  /use\s+(?:code|otp)\s*:?\s*([\d\s\-]{4,}?)(?:\s|$|\.)/i,
-  /([\d\s\-]{4,})/,
+  /(?:otp|code|pin)\s*(?:is|:)?\s*([\da-z\s\-]{4,}?)(?:\s|$|\.)/i,
+  /([\da-z\s\-]{4,}?)\s+is your (?:verification|otp|one-time)/i,
+  /^\s*([\da-z\s\-]{4,}?)\s*$/m,
+  /use\s+(?:code|otp)\s*:?\s*([\da-z\s\-]{4,}?)(?:\s|$|\.)/i,
+  /([\da-z\s\-]{4,})/i,
 ];
 
 
@@ -34,8 +34,8 @@ function extractOTPFromText(text: string): string | null {
   for (const pattern of OTP_PATTERNS) {
     const match = text.match(pattern);
     if (match?.[1]) {
-      const cleaned = match[1].replace(/[\s\-]/g, "");
-      if (/^\d{4,8}$/.test(cleaned)) return cleaned;
+      const cleaned = match[1].replace(/[\s\-]/g, "").toUpperCase();
+      if (/^[A-Z0-9]{4,8}$/.test(cleaned)) return cleaned;
     }
   }
   return null;

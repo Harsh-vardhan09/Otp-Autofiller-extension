@@ -18,6 +18,8 @@ const OTP_SIGNALS = {
     /one.time.*password/i,
     /check.*(?:email|inbox).*code/i,
     /\d+[-\s]*digit.*code/i,
+    /emailed.*code/i,
+    /sent.*code/i,
   ],
 };
 
