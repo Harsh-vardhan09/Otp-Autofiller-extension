@@ -22,19 +22,18 @@ interface GmailMessageListResponse {
 }
 
 const OTP_PATTERNS: RegExp[] = [
-  /(?:otp|code|pin)\s*(?:is|:)?\s*([\da-z\s\-]{4,}?)(?:\s|$|\.)/i,
-  /([\da-z\s\-]{4,}?)\s+is your (?:verification|otp|one-time)/i,
-  /^\s*([\da-z\s\-]{4,}?)\s*$/m,
-  /use\s+(?:code|otp)\s*:?\s*([\da-z\s\-]{4,}?)(?:\s|$|\.)/i,
-  /([\da-z\s\-]{4,})/i,
+  /(?:otp|code|pin)\s*(?:is|:)?\s*([\da-z\s-]{4,}?)(?:\s|$|\.)/i,
+  /([\da-z\s-]{4,}?)\s+is your (?:verification|otp|one-time)/i,
+  /^\s*([\da-z\s-]{4,}?)\s*$/m,
+  /use\s+(?:code|otp)\s*:?\s*([\da-z\s-]{4,}?)(?:\s|$|\.)/i,
+  /([\da-z\s-]{4,})/i,
 ];
-
 
 function extractOTPFromText(text: string): string | null {
   for (const pattern of OTP_PATTERNS) {
     const match = text.match(pattern);
     if (match?.[1]) {
-      const cleaned = match[1].replace(/[\s\-]/g, "").toUpperCase();
+      const cleaned = match[1].replace(/[\s-]/g, "").toUpperCase();
       if (/^[A-Z0-9]{4,8}$/.test(cleaned)) return cleaned;
     }
   }
@@ -68,7 +67,9 @@ function getAuthToken(interactive: boolean): Promise<string> {
     chrome.identity.getAuthToken({ interactive }, (token) => {
       if (chrome.runtime.lastError || !token) {
         reject(
-          new Error(chrome.runtime.lastError?.message ?? "Failed to get auth token")
+          new Error(
+            chrome.runtime.lastError?.message ?? "Failed to get auth token",
+          ),
         );
         return;
       }
@@ -95,7 +96,7 @@ async function fetchOtpForDomain(_domain: string): Promise<OTPResponse> {
     console.log("[OTP] Search query:", query);
 
     const listUrl = `https://gmail.googleapis.com/gmail/v1/users/me/messages?${new URLSearchParams(
-      { q: query, maxResults: "10" }
+      { q: query, maxResults: "10" },
     )}`;
 
     const list = await gmailFetch<GmailMessageListResponse>(listUrl, token);
@@ -139,7 +140,10 @@ chrome.runtime.onMessage.addListener(
         .catch((error: unknown) => {
           const errorMessage =
             error instanceof Error ? error.message : "Failed to fetch OTP";
-          sendResponse({ otp: null, error: errorMessage } satisfies OTPResponse);
+          sendResponse({
+            otp: null,
+            error: errorMessage,
+          } satisfies OTPResponse);
         });
       return true;
     }
@@ -152,5 +156,5 @@ chrome.runtime.onMessage.addListener(
     }
 
     return true;
-  }
+  },
 );

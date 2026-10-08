@@ -25,7 +25,7 @@ const OTP_SIGNALS = {
 
 function isOTPPage(): boolean {
   const hasMatchingInput = OTP_SIGNALS.inputPatterns.some(
-    (selector) => document.querySelector(selector) !== null
+    (selector) => document.querySelector(selector) !== null,
   );
   if (hasMatchingInput) return true;
 
@@ -98,7 +98,7 @@ async function handleButtonClick(button: HTMLButtonElement): Promise<void> {
 
 const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
   HTMLInputElement.prototype,
-  "value"
+  "value",
 )?.set;
 
 function isVisible(el: HTMLElement): boolean {
@@ -106,7 +106,9 @@ function isVisible(el: HTMLElement): boolean {
   return (
     style.display !== "none" &&
     style.visibility !== "hidden" &&
-    (el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0)
+    (el.offsetWidth > 0 ||
+      el.offsetHeight > 0 ||
+      el.getClientRects().length > 0)
   );
 }
 
@@ -119,17 +121,21 @@ function fillOTP(otp: string): void {
 
   // Case 1: one input per digit.
   const singleDigitInputs = Array.from(
-    document.querySelectorAll<HTMLInputElement>('input[maxlength="1"]')
+    document.querySelectorAll<HTMLInputElement>('input[maxlength="1"]'),
   ).filter(isVisible);
 
   if (singleDigitInputs.length === digits.length) {
     singleDigitInputs.forEach((input, i) => {
       const digit = digits[i];
       input.focus();
-      input.dispatchEvent(new KeyboardEvent("keydown", { key: digit, bubbles: true }));
+      input.dispatchEvent(
+        new KeyboardEvent("keydown", { key: digit, bubbles: true }),
+      );
       setNativeValue(input, digit);
       input.dispatchEvent(new Event("input", { bubbles: true }));
-      input.dispatchEvent(new KeyboardEvent("keyup", { key: digit, bubbles: true }));
+      input.dispatchEvent(
+        new KeyboardEvent("keyup", { key: digit, bubbles: true }),
+      );
     });
     return;
   }
@@ -148,7 +154,9 @@ function fillOTP(otp: string): void {
   }
 
   // Case 3: contenteditable field.
-  const editable = document.querySelector<HTMLElement>('[contenteditable="true"]');
+  const editable = document.querySelector<HTMLElement>(
+    '[contenteditable="true"]',
+  );
   if (editable) {
     editable.focus();
     editable.innerText = otp;

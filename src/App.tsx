@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import type {
-  Account,
-  AvatarColor,
-  Settings,
-  StorageData,
-} from "./types";
+import type { Account, AvatarColor, Settings, StorageData } from "./types";
 
 type Screen = "signin" | "accounts" | "settings";
 
@@ -232,7 +227,7 @@ export default function App() {
         setSettings({ ...DEFAULT_SETTINGS, ...(data.settings ?? {}) });
         setScreen(loadedAccounts.length > 0 ? "accounts" : "signin");
         setLoaded(true);
-      }
+      },
     );
   }, []);
 
@@ -254,7 +249,7 @@ export default function App() {
         chrome.identity.getAuthToken({ interactive: true }, (t) => {
           if (chrome.runtime.lastError || !t) {
             reject(
-              new Error(chrome.runtime.lastError?.message ?? "Sign in failed")
+              new Error(chrome.runtime.lastError?.message ?? "Sign in failed"),
             );
             return;
           }
@@ -262,10 +257,9 @@ export default function App() {
         });
       });
 
-      const res = await fetch(
-        "https://www.googleapis.com/oauth2/v1/userinfo",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await fetch("https://www.googleapis.com/oauth2/v1/userinfo", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) throw new Error("Could not load Google profile");
       const profile: { id?: string; email: string; name?: string } =
         await res.json();

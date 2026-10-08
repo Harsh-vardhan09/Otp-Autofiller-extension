@@ -31,19 +31,19 @@ and automatically fills verification codes into supported web forms.
 ## Project Structure
 
 src/
-├── App.tsx                 # Extension popup UI
-├── main.tsx                # React entry point
-├── index.css               # Global styles
+├── App.tsx # Extension popup UI
+├── main.tsx # React entry point
+├── index.css # Global styles
 ├── background/
-│   └── index.ts             # Gmail API + OTP extraction
+│ └── index.ts # Gmail API + OTP extraction
 ├── content/
-│   └── index.ts             # OTP page detection + autofill
+│ └── index.ts # OTP page detection + autofill
 └── types/
-    └── index.ts             # Shared TypeScript types
+└── index.ts # Shared TypeScript types
 
-manifest.json                # Chrome extension configuration
-vite.config.ts               # Vite + CRXJS configuration
-package.json                 # Dependencies and scripts
+manifest.json # Chrome extension configuration
+vite.config.ts # Vite + CRXJS configuration
+package.json # Dependencies and scripts
 
 ## Requirements
 
@@ -115,10 +115,10 @@ to retrieve recent messages.
 
 ## Available Commands
 
-npm run dev       # Start development server
-npm run build     # Type-check and build
-npm run lint      # Run ESLint
-npm run preview   # Preview Vite build
+npm run dev # Start development server
+npm run build # Type-check and build
+npm run lint # Run ESLint
+npm run preview # Preview Vite build
 
 ## Security
 

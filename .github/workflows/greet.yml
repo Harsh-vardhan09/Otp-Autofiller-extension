@@ -1,0 +1,29 @@
+name: Greet PR
+
+on:
+  # pull_request_target so fork PRs can be commented on. Never check out PR code here.
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: pr.number,
+              body: [
+                `👋 Thanks for the PR, @${pr.user.login}!`,
+                ``,
+                `- ⭐ If this project helps you, please [star the repo](https://github.com/${owner}/${repo}).`,
+                `- 📖 Please read and follow the [contribution standards](https://github.com/${owner}/${repo}/blob/main/CONTRIBUTING.md).`,
+                `- ✅ Run \`npm run ci\` locally before requesting review.`,
+              ].join('\n'),
+            });
